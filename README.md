@@ -1,1 +1,1 @@
-Project: BachelorOppgaveGr10
+ BachelorOppgaveGr10
