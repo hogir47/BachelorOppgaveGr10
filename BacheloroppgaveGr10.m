@@ -1,58 +1,81 @@
-% Skript som plotter banen til en tenkt partikkel
-% Input:
-% x0 - Startposisjon
-% dt - Oppdelinga i td (bestemmer farten som simuleringa vises med)
-% tMax - Hvor lenge simuleringa skal vare
-% N - antall punkter i x - for plottinga
-% Landskap
-f = @(x) x.^2;              %Landskapet vi glir over
-fig = figure(1);
-xlabel("X-axis",'fontsize',16,'color','b');
-ylabel("Y-axis",'fontsize',16,'color','b');
-title("Simulating of sliding",'fontsize',16,'color','r');
+% Dette skriptet implementerar "steepest decent"
+% eller "gradient decent" for å finne eit 
+% (lokalt) minmalpunkt for ein funksjon.
+% Input er:
+% funk - sjølve funksjonen vi skal minimerer
+% Maksima- og minimalverdiane for x og y 
+% (funksjonen er definert på eit rektangulært
+% område).
+% Vidare er startpunktet (x0, y0) input.
+% I tillegg brukar implementeringa parametrane 
+% Gamma, som skalerar kor langt vi skal gå i 
+% gradient-retninga, og h, som blir brukt til 
+% å estimere numeriske (partielle) dervierte.
 
-% X-posisjon som funksjon av tid...
-x0 = 5;                    % Startposisjon
-Vx0 =0;                    % Start av farten
- X =x0;
-% Oppløsninga i tid - steglengda - og varigheten av simuleringa
-dt = 0.0025;
-tMax=20;
-t=0;                       % Start-tid
-% mot venstre
-m =10;                     % Massen
-h = 0.01;                  % Der h er et lite tall
-g = 9.81;                  % Tyngdeakselerasjonen, g= 9.8 
-M =0.25;                   %Friksjonskoeffisienten (0-1)
-D=(f(X+h)-f(X-h))/(2*h);   % Numerisk metode til å bestemme vikelen
-B =-atan(D);               % Vinkel mellom tangent og horisont
-W=m*g;                     % Tyngdekraft
-N=W*cos(B);                % Normalkraft
-S=M*N;                     % Friksjonskoeffisienten * Normalkraft
-% Vektor med x-verdier
-Na=100;                    % antall punkter
-xVektor = linspace(-5,5,Na);   % Vektor med x-verdier
+% Funksjon
+funk = @(x,y) -cos(sqrt(x.^2+2*y.^2+1))./sqrt(2*x.^2+y.^2+1);
+% Grenser for x og y
+xMin=-4;
+xMax=4;
+yMin=-4;
+yMax=4;
 
-% Lager plott
-plot(xVektor,f(xVektor),'k-','linewidth',2) % Plotter landskap
-hold on
-xVerdi = x0;
-yVerdi = f(xVerdi);
-% Ploter posisjonen til objektet (rød stjerne)
-pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
-hold off
-% ikke ferdig...
-while (S < W*sin(B))      % Looper over alle tidspunktene
-    if S>W*sin(B)         % Friksjonskoeffisienten her er større
-        break             % Stoppkriterium 
-    else
-       continue           % Fortsette å gli igjen
-    end
-   % Oppdaterer data til plotting
-     set(pl,'xdata',X);
-     set(pl,'ydata',Y);
+% Startpunkt
+x0=1;
+y0=-1;
 
-  drawnow               % Oppdaterer selve plottet
+% Steglengder
+Gamma=0.05;
+h=.01;
+
+% Lagar vektorar med x- og y-punkt
+xVector=linspace(xMin,xMax,200);
+yVector=linspace(yMin,yMax,200);
+% Lagar matrise med funksjonsverdiar
+[X, Y] = meshgrid(xVector,yVector);
+% Matrise med funksjonsverdiar
+Z=funk(X,Y);
+
+% Plottar flata i rommet
+figure(1)
+surf(X,Y,Z)
+shading interp
+xlabel('x')         % Namn på aksane
+ylabel('y') 
+alpha(0.5)          % Gjer flata delvis gjennomsiktig
+hold on             % Lar plottet bli verande når vi plottar fleire ting
+
+% Initerar variable
+x=x0;
+y=y0;
+FunkVal=funk(x,y);          % Funksonsverdien
+FunkValOld=FunkVal+1;       % "Gamal" funksjonsverdi
+plot3(x,y,funk(x,y),'ro')   % Plottar startpunkt
+
+% Implementerar sjølve "gradient decent"-metoden
+while FunkVal<FunkValOld    % Gjentar så lenge neste funksjonverdi er mindre
+  % Oppdaterar kva som er gamalt
+  OldX=x;                   
+  OldY=y;
+  FunkValOld=FunkVal;       
+  % Reknar ut tilnærma partielle deriverte (gradienten)
+  Xderiv=(funk(x+h,y)-funk(x-h,y))/(2*h);
+  Yderiv=(funk(x,y+h)-funk(x,y-h))/(2*h);
+  % Reknar ut nytt punkt
+  x=x-Gamma*Xderiv;
+  y=y-Gamma*Yderiv;
+  % Kontrollerar at punktet ligg i definisjonsområdet
+  if x<xMin | x>xMax | y<yMin | y>yMax
+    disp('Utanfor området.')      % Skriv til skjerm
+    hold off                      % Sluttar å "spare på" plott
+    return                        % Sluttar å køyre skriptet
+  end
+  FunkVal=funk(x,y);
+  plot3(x,y,FunkVal,'k.')   % Plottar neste punkt i iterasjonen
 end
 
-
+% Plottar minmalpunktet vi fann og skriv det til skjerm
+plot3(x,y,FunkVal,'kx')
+hold off              % Sluttar å halde fast på gamle plott
+disp(['Minimalpunkt: (',num2str(x),',',num2str(y),').'])
+disp(['Minmialverdi: ',num2str(FunkVal),'.'])
