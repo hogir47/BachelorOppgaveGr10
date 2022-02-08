@@ -30,7 +30,7 @@ N=W*cos(B);                % Normalkraft
 S=M*N;                     % Friksjonskoeffisienten * Normalkraft
 % Vektor med x-verdier
 Na=100;              % antall punkter
-xVektor = linspace(-1.*x0,1.*x0,N);   % Vektor med x-verdier
+xVektor = linspace(-1.*x0,1.*x0,Na);   % Vektor med x-verdier
 
 % Lager plott
 plot(xVektor,f(xVektor),'k-','linewidth',2) % Plotter landskap
@@ -40,14 +40,10 @@ yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rød stjerne)
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
- Vx = Vx0;
- %X =x0;
- while abs(Vx)>1e-6 | S<W*sin(B)     % Looper over alle tidspunktene
-      D=(f(X+h)-f(X-h))/(2*h);   % Numerisk metode til å bestemme vikelen
-      B =-atan(D);               % Vinkel mellom tangent og horisont
-      W=m*g;                     % Tyngdekraft
-      N = [Funksjonsfil som vi skal lage]
-      S=M*N;                     % Friksjonskoeffisienten * Normalkraft
+Vx = 1e-6;
+ while abs(Vx)>1e-6 | abs(S)<W*sin(B)    % Looper over alle tidspunktene
+      %N = Normalkraft(h,X,f);
+      %S=M*N; 
       ax=Akselerasjon(Vx,X,h,f,M,g);
       VxHatt=Vx+ax*dt/2;
       XHatt=X+Vx*dt/2;
@@ -55,7 +51,11 @@ hold off
       Vx=Vx+ax*dt;
       X=X+Vx*dt;
       Y=f(X);
-      F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
+      %F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
+      if abs(Vx)<1e-6 & abs(S)>W*sin(B)
+          disp('Utanfor området.')      % Skriv til skjerm
+          hold off                      % Sluttar å "spare på" plott
+      end
    % Oppdaterer data til plotting
      set(pl,'xdata',X);
      set(pl,'ydata',Y);
