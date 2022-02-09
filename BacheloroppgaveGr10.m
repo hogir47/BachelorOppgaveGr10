@@ -19,15 +19,15 @@ dt = 0.0025;
 tMax=20;
 t=0;                % Start-tid
 % mot venstre
-m =10;
+W =98.1;
 h = 0.01;
-g = 9.81; 
+g = 9.81;
+D=(f(X+h)-f(X-h))/(2*h);
+B =-atan(D);
+N=W*cos(B);                 % Normalkraft
+S=M*N;
+BV = true;
 M =0.25;                   %Friksjonskoeffisienten (0-1)
-D=(f(X+h)-f(X-h))/(2*h);   % Numerisk metode til å bestemme vikelen
-B =-atan(D);               % Vinkel mellom tangent og horisont
-W=m*g;                     % Tyngdekraft
-N=W*cos(B);                % Normalkraft
-S=M*N;                     % Friksjonskoeffisienten * Normalkraft
 % Vektor med x-verdier
 Na=100;              % antall punkter
 xVektor = linspace(-1.*x0,1.*x0,Na);   % Vektor med x-verdier
@@ -40,10 +40,12 @@ yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rød stjerne)
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
-Vx = 1e-6;
- while abs(Vx)>1e-6 | abs(S)<W*sin(B)    % Looper over alle tidspunktene
-      %N = Normalkraft(h,X,f);
-      %S=M*N; 
+ Vx = Vx0;
+ X =x0;
+ for t=0:dt:tMax
+%while abs(Vx)>1e-6 || abs(S)<W*sin(B)    % Looper over alle tidspunktene
+if BV
+      %nx = Normalkraft(h,X,f); 
       ax=Akselerasjon(Vx,X,h,f,M,g);
       VxHatt=Vx+ax*dt/2;
       XHatt=X+Vx*dt/2;
@@ -51,11 +53,14 @@ Vx = 1e-6;
       Vx=Vx+ax*dt;
       X=X+Vx*dt;
       Y=f(X);
-      %F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
-      if abs(Vx)<1e-6 & abs(S)>W*sin(B)
-          disp('Utanfor området.')      % Skriv til skjerm
-          hold off                      % Sluttar å "spare på" plott
-      end
+      F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
+else
+   %abs(Vx)<1e-6;
+   %abs(S)>W*sin(B);
+         %disp('Utanfor området.')      % Skriv til skjerm
+          %hold off                      % Sluttar å "spare på" plott
+      
+end
    % Oppdaterer data til plotting
      set(pl,'xdata',X);
      set(pl,'ydata',Y);
