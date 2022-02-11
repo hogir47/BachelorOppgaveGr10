@@ -3,7 +3,7 @@
 % x0 - Startposisjon
 % dt - Oppdelinga i td (bestemmer farten som simuleringa vises med)
 % tMax - Hvor lenge simuleringa skal vare
-% N - antall punkter i x - for plottinga
+% Na - antall punkter i x - for plottinga
 % Landskap
 f =@(x) x.^2;
 fig = figure(1);
@@ -19,14 +19,10 @@ dt = 0.01;
 tMax=10;
 t=0;                % Start-tid
 % mot venstre
-W =98.1;
+X =x0;
 h = 0.001;
 g = 9.81; 
-M =0.025;
-D=(f(X+h)-f(X-h))/(2*h);
-B =-atan(D);
-N=W*cos(B);                 % Normalkraft
-S=M*N;
+M =0.1;
 presisjon = 1e-6;
 Vx = 0.1;                  %Steglengde (blir endra inne i løkka)
 % Vektor med x-verdier
@@ -40,15 +36,17 @@ yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rød stjerne)
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
- X =x0;
  % For video
 v = VideoWriter ('test.avi');
 open (v); 
 % Løkke som går over tidspunktene
 indeks=1;               % Innfører indeks som teller iterasjoner
- while abs(Vx)>presisjon || abs(S)<W*sin(B)   % Looper over alle tidspunktene
+ while abs(Vx)>presisjon || abs(R)<G   % Looper over alle tidspunktene
 
-      ax=Akselerasjon(Vx,X,h,f,M,g);
+      N=Normalkraft(h,f,X);            %Normalkraft funksjon
+      R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
+      G=W*sin(B);                      % Tyngdekraft
+      ax=Akselerasjon(Vx,X,h,f,M,g);   %Akselerasjon
       VxHatt=Vx+ax*dt/2;
       XHatt=X+Vx*dt/2;
       ax=Akselerasjon(VxHatt,XHatt,h,f,M,g);
@@ -57,7 +55,7 @@ indeks=1;               % Innfører indeks som teller iterasjoner
       Y=f(X);
       F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
 
-  if abs(Vx)<presisjon && abs(S)>W*sin(B)
+  if abs(Vx)<presisjon && abs(R)>G
     break
   end
    % Oppdaterer data til plotting
