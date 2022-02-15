@@ -23,7 +23,7 @@ X =x0;
 h = 0.001;
 g = 9.81; 
 M =0.1;
-presisjon = 1e-6;
+presisjon = 1e-4;
 Vx = 0.1;                  %Steglengde (blir endra inne i løkka)
 % Vektor med x-verdier
 Na=300;              % antall punkter
@@ -37,15 +37,17 @@ yVerdi = f(xVerdi);
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
  % For video
-v = VideoWriter ('test.avi');
-open (v); 
+%v = VideoWriter ('test.avi');
+%open (v); 
 % Løkke som går over tidspunktene
-indeks=1;               % Innfører indeks som teller iterasjoner
+%indeks=1;               % Innfører indeks som teller iterasjoner
  while abs(Vx)>presisjon || abs(R)<G   % Looper over alle tidspunktene
 
-      N=Normalkraft(h,f,X);            %Normalkraft funksjon
+      N=Normalkraft(Vx,X,h,f,M,g);            %Normalkraft funksjon
       R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
-      G=W*sin(B);                      % Tyngdekraft
+      D=(f(X+h)-f(X-h))/(2*h);
+      B =-atan(D);
+      G=g*sin(B);                      % Tyngdekraft
       ax=Akselerasjon(Vx,X,h,f,M,g);   %Akselerasjon
       VxHatt=Vx+ax*dt/2;
       XHatt=X+Vx*dt/2;
@@ -54,22 +56,18 @@ indeks=1;               % Innfører indeks som teller iterasjoner
       X=X+Vx*dt;
       Y=f(X);
       F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
-
-  if abs(Vx)<presisjon && abs(R)>G
-    break
-  end
    % Oppdaterer data til plotting
      set(pl,'xdata',X);
      set(pl,'ydata',Y);
 
   drawnow               % Oppdaterer selve plottet
     % Sparer på hver 5. frame til video
-  if mod(indeks,5)==0 
+  %if mod(indeks,5)==0 
     % Spare på "frame" til filmen
-    frame=getframe(gcf);
-    writeVideo(v, frame);
-  end
-  indeks=indeks+1;      % Oppdaterer indeks  
+    %frame=getframe(gcf);
+    %writeVideo(v, frame);
+  %end
+  %indeks=indeks+1;      % Oppdaterer indeks  
 end
 % Lukker video-fila
-close(v)
+%close(v)

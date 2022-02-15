@@ -1,5 +1,6 @@
-function N = Normalkraft(h,f,X)
+function N = Normalkraft(Vx,X,h,f,M,g)
 D=(f(X+h)-f(X-h))/(2*h);
 B =-atan(D);
-W =98.1;
-N=W*cos(B);                 % Normalkraft
+F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
+N= ( sin(B)-sign(Vx)*M*cos(B))*(g+F*Vx^2)/...
+((1 + sign(Vx)*M*D)*cos(B)+(sign(Vx)*M-D)*sin(B));
