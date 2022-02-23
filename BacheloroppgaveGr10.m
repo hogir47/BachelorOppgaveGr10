@@ -25,6 +25,7 @@ g = 9.81;
 M =0.1;
 presisjon = 1e-4;
 Vx = 0.1;                  %Steglengde (blir endra inne i løkka)
+Vmin=0;
 % Vektor med x-verdier
 Na=300;              % antall punkter
 xVektor = linspace(-5,5,Na);   % Vektor med x-verdier
@@ -41,6 +42,7 @@ hold off
 %open (v); 
 % Løkke som går over tidspunktene
 %indeks=1;               % Innfører indeks som teller iterasjoner
+while abs(Vx) > Vmin || D > M
  while abs(Vx)>presisjon || abs(R)<G   % Looper over alle tidspunktene
 
       N=Normalkraft(Vx,X,h,f,M,g);            %Normalkraft funksjon
@@ -68,6 +70,10 @@ hold off
     %writeVideo(v, frame);
   %end
   %indeks=indeks+1;      % Oppdaterer indeks  
+ end
+  D=(f(X+h)-f(X-h))/(2*h);
+  M=M/2;
+  R=M*N;  
 end
 % Lukker video-fila
 %close(v)
