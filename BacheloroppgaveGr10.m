@@ -12,10 +12,10 @@ ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
 
 % X-posisjon som funksjon av tid
-x0 = 4.8;             % Startposisjon
+x0 = 1;             % Startposisjon
 Vx0 =0;                %Start av farten
 % Oppløsninga i tid - steglengda - og varigheten av simuleringa
-dt = 0.01;
+dt = 0.005;
 tMax=10;
 t=0;                % Start-tid
 % mot venstre
@@ -23,9 +23,9 @@ X =x0;
 h = 0.001;
 g = 9.81; 
 M =0.1;
-presisjon = 1e-4;
+presisjon = 1e-8;
 Vx = 0.1;                  %Steglengde (blir endra inne i løkka)
-Vmin=0;
+Vmin=1e-5;
 % Vektor med x-verdier
 Na=300;              % antall punkter
 xVektor = linspace(-5,5,Na);   % Vektor med x-verdier
@@ -42,8 +42,12 @@ hold off
 %open (v); 
 % Løkke som går over tidspunktene
 %indeks=1;               % Innfører indeks som teller iterasjoner
-while abs(Vx) > Vmin || D > M
- while abs(Vx)>presisjon || abs(R)<G   % Looper over alle tidspunktene
+%while abs(Vx) > Vmin || D > M
+Xstopp= 0;
+XstoppNy= 10*presisjon;
+while abs(Xstopp-XstoppNy)>presisjon
+    Xstopp=XstoppNy;
+while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
 
       N=Normalkraft(Vx,X,h,f,M,g);            %Normalkraft funksjon
       R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
@@ -71,9 +75,8 @@ while abs(Vx) > Vmin || D > M
   %end
   %indeks=indeks+1;      % Oppdaterer indeks  
  end
-  D=(f(X+h)-f(X-h))/(2*h);
-  M=M/2;
-  R=M*N;  
+  XstoppNy=X
+  M=M/2
 end
 % Lukker video-fila
 %close(v)
