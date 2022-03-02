@@ -13,7 +13,7 @@ ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
 
 % X-posisjon som funksjon av tid
-x0 = -2;             % Startposisjon
+x0 = -10;             % Startposisjon
 Vx0 =0;                %Start av farten
 % Oppløsninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
@@ -31,7 +31,8 @@ Vx = 0.1;                  %Steglengde (blir endra inne i løkka)
 Vmin=1e-5;
 % Vektor med x-verdier
 Na=300;              % antall punkter
-xVektor = linspace(-5,5,Na);   % Vektor med x-verdier
+xVektor = linspace(xMin,xMax,Na);   % Vektor med x-verdier
+%xVektor = linspace(-5,5,Na);   % Vektor med x-verdier
 % Lager plott
 plot(xVektor,f(xVektor),'k-','linewidth',2) % Plotter landskap
 hold on
@@ -40,6 +41,9 @@ yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rød stjerne)
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
+Mverdi=f(x);
+disp(['Minimalpunkt: ',num2str(x),'.'])
+disp(['Minmialverdi: ',num2str(Mverdi),'.'])
  % For video
 %v = VideoWriter ('test.avi');
 %open (v); 
@@ -74,7 +78,7 @@ while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
   drawnow               % Oppdaterer selve plottet
     % Sparer på hver 5. frame til video
   %if mod(indeks,5)==0 
-  if mod(ii,5)==0;
+  if mod(ii,5)==0
     % Spare på "frame" til filmen
     %frame=getframe(gcf);
     %writeVideo(v, frame);
@@ -82,8 +86,8 @@ while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
   %indeks=indeks+1;      % Oppdaterer indeks  
   end
  end
-  XstoppNy=X
-  M=M/2
+  XstoppNy=X;
+  M=M/2;
 end
 % Lukker video-fila
 %close(v)
