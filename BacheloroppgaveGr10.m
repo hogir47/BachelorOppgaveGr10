@@ -41,9 +41,9 @@ yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rød stjerne)
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
-Mverdi=f(x);
-disp(['Minimalpunkt: ',num2str(x),'.'])
-disp(['Minmialverdi: ',num2str(Mverdi),'.'])
+%FunkVal=f(x);          % Funksonsverdien
+%disp(['Minimalpunkt: ',num2str(X),'.'])
+%disp(['Minmialverdi: ',num2str(Funk),'.'])
  % For video
 %v = VideoWriter ('test.avi');
 %open (v); 
@@ -71,23 +71,26 @@ while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
       Y=f(X);
       F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
    % Oppdaterer data til plotting
-     ii=ii+1;
      set(pl,'xdata',X);
      set(pl,'ydata',Y);
 
   drawnow               % Oppdaterer selve plottet
-    % Sparer på hver 5. frame til video
+   % Sparer på hver 5. frame til video
   %if mod(indeks,5)==0 
-  if mod(ii,5)==0
+  %if mod(ii,5)==0
+    %disp(['Minmialverdi: ',num2str(FunkVal),'.'])
     % Spare på "frame" til filmen
     %frame=getframe(gcf);
     %writeVideo(v, frame);
   %end
   %indeks=indeks+1;      % Oppdaterer indeks  
-  end
+  %end
+   %ii=ii+1;
  end
   XstoppNy=X;
   M=M/2;
+  disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
 end
+disp(['Minmialverdi: ',num2str(f(XstoppNy)),'.'])
 % Lukker video-fila
 %close(v)
