@@ -1,5 +1,6 @@
 % Skript som plotter banen til en tenkt partikkel
 % Input: 
+%Him
 % x0 - Startposisjon
 % dt - Oppdelinga i td (bestemmer farten som simuleringa vises med)
 % tMax - Hvor lenge simuleringa skal vare
