@@ -14,7 +14,7 @@ ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
 
 % X-posisjon som funksjon av tid
-x0 = -10;             % Startposisjon
+x0 = 10;             % Startposisjon
 Vx0 =0;                %Start av farten
 % Oppløsninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
@@ -55,39 +55,28 @@ ii=1;
 Xstopp= 0;
 XstoppNy= 10*presisjon;
 while abs(Xstopp-XstoppNy)>presisjon
-    Xstopp=XstoppNy;
-while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
+       Xstopp=XstoppNy;
+    while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
+          N=Normalkraft(Vx,X,h,f,M,g);            %Normalkraft funksjon
+          R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
+          D=(f(X+h)-f(X-h))/(2*h);
+          B =-atan(D);
+          G=g*sin(B);                      % Tyngdekraft
+          ax=Akselerasjon(Vx,X,h,f,M,g);   %Akselerasjon
+          VxHatt=Vx+ax*dt/2;
+          XHatt=X+Vx*dt/2;
+          ax=Akselerasjon(VxHatt,XHatt,h,f,M,g);
+          Vx=Vx+ax*dt;
+          X=X+Vx*dt;
+          Y=f(X);
+          F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
+       % Oppdaterer data til plotting
+         set(pl,'xdata',X);
+         set(pl,'ydata',Y);
 
-      N=Normalkraft(Vx,X,h,f,M,g);            %Normalkraft funksjon
-      R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
-      D=(f(X+h)-f(X-h))/(2*h);
-      B =-atan(D);
-      G=g*sin(B);                      % Tyngdekraft
-      ax=Akselerasjon(Vx,X,h,f,M,g);   %Akselerasjon
-      VxHatt=Vx+ax*dt/2;
-      XHatt=X+Vx*dt/2;
-      ax=Akselerasjon(VxHatt,XHatt,h,f,M,g);
-      Vx=Vx+ax*dt;
-      X=X+Vx*dt;
-      Y=f(X);
-      F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
-   % Oppdaterer data til plotting
-     set(pl,'xdata',X);
-     set(pl,'ydata',Y);
+      drawnow               % Oppdaterer selve plottet
 
-  drawnow               % Oppdaterer selve plottet
-   % Sparer på hver 5. frame til video
-  %if mod(indeks,5)==0 
-  %if mod(ii,5)==0
-    %disp(['Minmialverdi: ',num2str(FunkVal),'.'])
-    % Spare på "frame" til filmen
-    %frame=getframe(gcf);
-    %writeVideo(v, frame);
-  %end
-  %indeks=indeks+1;      % Oppdaterer indeks  
-  %end
-   %ii=ii+1;
- end
+     end
   XstoppNy=X;
   M=M/2;
   disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
