@@ -14,8 +14,8 @@ ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
 
 % X-posisjon som funksjon av tid
-x0 = -10;                                  % Startposisjon
-Vx0 =0;                                    %Start av farten
+x0 = -10                                  % Startposisjon
+Vx0 =10;                                    %Start av farten
 % Oppløsninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
 tMax=10;
@@ -28,7 +28,7 @@ h = 0.001;
 g = 9.81; 
 M =0.1;
 presisjon = 1e-8;
-Vx = 0.1;                                   %Steglengde (blir endra inne i løkka)
+Vx = 20;                                   %Steglengde (blir endra inne i løkka)
 Vmin=1e-5;
 % Vektor med x-verdier
 Na=300;                                     % antall punkter
@@ -49,6 +49,7 @@ while abs(Xstopp-XstoppNy)>presisjon
     while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
           N=Normalkraft(Vx,X,h,f,M,g);     %Normalkraft funksjon
           R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
+          D=(f(X+h)-f(X-h))/(2*h); 
           ax=Akselerasjon(Vx,X,h,f,M,g);   %Akselerasjon
           VxHatt=Vx+ax*dt/2;
           XHatt=X+Vx*dt/2;
