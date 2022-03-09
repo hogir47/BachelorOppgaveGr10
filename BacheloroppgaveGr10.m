@@ -13,12 +13,12 @@ ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
 
 % X-posisjon som funksjon av tid
-x0 = -10;             % Startposisjon
-Vx0 =0;                %Start av farten
+x0 = -10;                                 % Startposisjon
+Vx0 =0;                                   %Start av farten
 % Oppløsninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
 tMax=10;
-t=0;                % Start-tid
+t=0;                                       % Start-tid
 % mot venstre
 xMin=-10;
 xMax=10;
@@ -27,12 +27,11 @@ h = 0.001;
 g = 9.81; 
 M =0.1;
 presisjon = 1e-8;
-Vx = 0.1;                  %Steglengde (blir endra inne i løkka)
+Vx = 0.1;                                   %Steglengde (blir endra inne i løkka)
 Vmin=1e-5;
 % Vektor med x-verdier
-Na=300;              % antall punkter
-xVektor = linspace(xMin,xMax,Na);   % Vektor med x-verdier
-%xVektor = linspace(-5,5,Na);   % Vektor med x-verdier
+Na=300;                                     % antall punkter
+xVektor = linspace(xMin,xMax,Na);           % Vektor med x-verdier
 % Lager plott
 plot(xVektor,f(xVektor),'k-','linewidth',2) % Plotter landskap
 hold on
@@ -41,23 +40,17 @@ yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rød stjerne)
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
-%FunkVal=f(x);          % Funksonsverdien
-%disp(['Minimalpunkt: ',num2str(X),'.'])
-%disp(['Minmialverdi: ',num2str(Funk),'.'])
  % For video
 %v = VideoWriter ('test.avi');
 %open (v); 
-% Løkke som går over tidspunktene
-%indeks=1;               % Innfører indeks som teller iterasjoner
-%while abs(Vx) > Vmin || D > M
-ii=1;
+%indeks=1;                             % Innfører indeks som teller iterasjoner
 Xstopp= 0;
 XstoppNy= 10*presisjon;
 while abs(Xstopp-XstoppNy)>presisjon
     Xstopp=XstoppNy;
-while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
+while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
 
-      N=Normalkraft(Vx,X,h,f,M,g);            %Normalkraft funksjon
+      N=Normalkraft(Vx,X,h,f,M,g);     %Normalkraft funksjon
       R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
       D=(f(X+h)-f(X-h))/(2*h);
       B =-atan(D);
@@ -74,18 +67,15 @@ while abs(Vx) > Vmin || D > M   % Looper over alle tidspunktene
      set(pl,'xdata',X);
      set(pl,'ydata',Y);
 
-  drawnow               % Oppdaterer selve plottet
+  drawnow                             % Oppdaterer selve plottet
    % Sparer på hver 5. frame til video
   %if mod(indeks,5)==0 
-  %if mod(ii,5)==0
-    %disp(['Minmialverdi: ',num2str(FunkVal),'.'])
     % Spare på "frame" til filmen
     %frame=getframe(gcf);
     %writeVideo(v, frame);
   %end
-  %indeks=indeks+1;      % Oppdaterer indeks  
+  %indeks=indeks+1;                  % Oppdaterer indeks  
   %end
-   %ii=ii+1;
  end
   XstoppNy=X;
   M=M/2;
