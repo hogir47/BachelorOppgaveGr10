@@ -11,7 +11,6 @@ fig = figure(1);
 xlabel("X-axis",'fontsize',16,'color','b');
 ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
-
 % X-posisjon som funksjon av tid
 x0 = -10;                                 % Startposisjon
 Vx0 =10;                                    %Start av farten
@@ -40,7 +39,6 @@ yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rød stjerne)
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
-ii=1;
 Xstopp= 0;
 XstoppNy= 10*presisjon;
 while abs(Xstopp-XstoppNy)>presisjon
