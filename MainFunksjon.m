@@ -1,3 +1,4 @@
+function XstoppNy=MainFunksjon(x0,Vx0)
 % Skript som plotter banen til en tenkt partikkel
 % Input: 
 % x0 - Startposisjon
@@ -11,12 +12,8 @@ fig = figure(1);
 xlabel("X-axis",'fontsize',16,'color','b');
 ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
-% X-posisjon som funksjon av tid
-x0 = -10;                                 % Startposisjon
-Vx0 =10;                                    %Start av farten
 % Oppløsninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
-tMax=10;
 t=0;                                        % Start-tid
 % mot venstre
 xMin=-10;
@@ -40,6 +37,7 @@ yVerdi = f(xVerdi);
 pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
 hold off
 Xstopp= 0;
+D=0;
 XstoppNy= 10*presisjon;
 while abs(Xstopp-XstoppNy)>presisjon
        Xstopp=XstoppNy;
@@ -64,5 +62,3 @@ while abs(Xstopp-XstoppNy)>presisjon
   disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
 end
 disp(['Minmialverdi: ',num2str(f(XstoppNy)),'.'])
-% Lukker video-fila
-%close(v)
