@@ -62,3 +62,5 @@ while abs(Xstopp-XstoppNy)>presisjon
   disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
 end
 disp(['Minmialverdi: ',num2str(f(XstoppNy)),'.'])
+disp(['x0:',num2str(x0),])
+disp(['Vx0:',num2str(Vx0),])
