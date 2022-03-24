@@ -1,4 +1,7 @@
-function XstoppNy=MainFunksjon(x0,Vx0)
+function  MainFunksjon(app,sw)
+cla(app.UIAxes);            
+app.Label.Text="simulating";
+%pause(0.01);
 % Skript som plotter banen til en tenkt partikkel
 % Input: 
 % x0 - Startposisjon
@@ -6,15 +9,15 @@ function XstoppNy=MainFunksjon(x0,Vx0)
 % tMax - Hvor lenge simuleringa skal vare
 % Na - antall punkter i x - for plottinga
 % Landskap
-%f =@(x) x.^2;
 f =@(x) x.^2/4 - 4 * cos(x-1);
-fig = figure(1);
-xlabel("X-axis",'fontsize',16,'color','b');
-ylabel("Y-axis",'fontsize',16,'color','b');
-title("Simulating of sliding",'fontsize',16,'color','r');
-% Oppløsninga i tid - steglengda - og varigheten av simuleringa
+xlabel(app.UIAxes,"X-axis",'fontsize',16,'color','b');
+ylabel(app.UIAxes,"Y-axis",'fontsize',16,'color','b');
+title(app.UIAxes,"Simulating of sliding",'fontsize',16,'color','r');
+ x0 = app.X0.Value;                                % Startposisjon
+ Vx0 =app.Vx0.Value; 
+%Start av farten
+% OpplÙ‘sninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
-t=0;                                        % Start-tid
 % mot venstre
 xMin=-10;
 xMax=10;
@@ -23,22 +26,21 @@ h = 0.001;
 g = 9.81; 
 M =0.1;
 presisjon = 1e-8;
-Vx = Vx0;                                   %Steglengde (blir endra inne i løkka)
+Vx = Vx0;                                   %Steglengde (blir endra inne i lÙ‘kka)
 Vmin=1e-5;
 % Vektor med x-verdier
 Na=300;                                     % antall punkter
 xVektor = linspace(xMin,xMax,Na);           % Vektor med x-verdier
 % Lager plott
-plot(xVektor,f(xVektor),'k-','linewidth',2) % Plotter landskap
-hold on
+plot(app.UIAxes, xVektor,f(xVektor),'k-','linewidth',2) % Plotter landskap
+hold(app.UIAxes,'on');
 xVerdi = x0;
 yVerdi = f(xVerdi);
-% Ploter posisjonen til objektet (rød stjerne)
-pl = plot(xVerdi,yVerdi,'rx','linewidth',10);    
-hold off
+% Ploter posisjonen til objektet (rÙ‘d stjerne)
+pl = plot(app.UIAxes,xVerdi,yVerdi,'rx','linewidth',10);    
 Xstopp= 0;
-D=0;
 XstoppNy= 10*presisjon;
+D=0;
 while abs(Xstopp-XstoppNy)>presisjon
        Xstopp=XstoppNy;
     while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
@@ -53,14 +55,22 @@ while abs(Xstopp-XstoppNy)>presisjon
           X=X+Vx*dt;
           Y=f(X);
           % Oppdaterer data til plotting
+          if(sw=="On")
           set(pl,'xdata',X);
           set(pl,'ydata',Y);
-      drawnow                               % Oppdaterer selve plottet
+          drawnow limitrate           % Oppdaterer selve plottet
+          end
      end
   XstoppNy=X;
   M=M/2;
-  disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
 end
+          set(pl,'xdata',XstoppNy);
+          set(pl,'ydata',f(XstoppNy));
+          drawnow  
+disp(['x0: ',num2str(x0),'.'])
+disp(['Vx0: ',num2str(Vx0),'.'])
+disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
 disp(['Minmialverdi: ',num2str(f(XstoppNy)),'.'])
-disp(['x0:',num2str(x0),])
-disp(['Vx0:',num2str(Vx0),])
+hold(app.UIAxes,'off');
+ app.Label.Text="done";
+   end

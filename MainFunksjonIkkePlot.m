@@ -19,7 +19,7 @@ g = 9.81;
 M =0.1;
 presisjon = 1e-8;
 Vx = Vx0;                                   %Steglengde (blir endra inne i løkka)
-Vmin=1e-5;
+Vmin=1e-4;
 Xstopp= 0;
 D=0;
 XstoppNy= 10*presisjon;
@@ -39,6 +39,8 @@ while abs(Xstopp-XstoppNy)>presisjon
      end
   XstoppNy=X;
   M=M/2;
-  disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
 end
+disp(['x0: ',num2str(x0),'.'])
+disp(['Vx0: ',num2str(Vx0),'.'])
+disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
 disp(['Minmialverdi: ',num2str(f(XstoppNy)),'.'])
