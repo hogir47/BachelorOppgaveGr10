@@ -9,7 +9,10 @@ app.Label.Text="simulating";
 % tMax - Hvor lenge simuleringa skal vare
 % Na - antall punkter i x - for plottinga
 % Landskap
+%f =@(x) 6*sin(x)-x+12;
+%f =@(x)-cos(sqrt(x.^2+2*x+1))./sqrt(2*x.^2+x+1);
 f =@(x) x.^2/4 - 4 * cos(x-1);
+%f =@(x) x.^2/10 - 6 * sin(x+5);
 xlabel(app.UIAxes,"X-axis",'fontsize',16,'color','b');
 ylabel(app.UIAxes,"Y-axis",'fontsize',16,'color','b');
 title(app.UIAxes,"Simulating of sliding",'fontsize',16,'color','r');

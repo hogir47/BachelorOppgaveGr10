@@ -16,3 +16,4 @@ surf(X,V,Mat);
 colormap(jet)
     colorbar;
 end
+   
