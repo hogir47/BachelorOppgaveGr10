@@ -1,6 +1,7 @@
-function  MainFunksjon(app,sw)
+function  MainFunksjon(app,sw,func)
 cla(app.UIAxes);            
 app.Label.Text="simulating";
+
 %pause(0.01);
 % Skript som plotter banen til en tenkt partikkel
 % Input: 
@@ -9,10 +10,16 @@ app.Label.Text="simulating";
 % tMax - Hvor lenge simuleringa skal vare
 % Na - antall punkter i x - for plottinga
 % Landskap
-%f =@(x) 6*sin(x)-x+12;
-%f =@(x)-cos(sqrt(x.^2+2*x+1))./sqrt(2*x.^2+x+1);
-f =@(x) x.^2/4 - 4 * cos(x-1);
-%f =@(x) x.^2/10 - 6 * sin(x+5);
+switch (func)
+    case 1
+        f =@(x) x.^2/4 - 4 * cos(x-1);
+    case 2
+        f =@(x) x.^2/10 - 6 * sin(x+5);
+    case 3
+        f =@(x)-cos(sqrt(x.^2+2*x+1))./sqrt(2*x.^2+x+1);
+    case 4
+        f =@(x) 6*sin(x)-x+12;
+end
 xlabel(app.UIAxes,"X-axis",'fontsize',16,'color','b');
 ylabel(app.UIAxes,"Y-axis",'fontsize',16,'color','b');
 title(app.UIAxes,"Simulating of sliding",'fontsize',16,'color','r');
@@ -35,12 +42,13 @@ Vmin=1e-5;
 Na=300;                                     % antall punkter
 xVektor = linspace(xMin,xMax,Na);           % Vektor med x-verdier
 % Lager plott
-plot(app.UIAxes, xVektor,f(xVektor),'k-','linewidth',2) % Plotter landskap
+plot(app.UIAxes, xVektor,f(xVektor),'k-','linewidth',2); % Plotter landskap
 hold(app.UIAxes,'on');
 xVerdi = x0;
 yVerdi = f(xVerdi);
 % Ploter posisjonen til objektet (rّd stjerne)
-pl = plot(app.UIAxes,xVerdi,yVerdi,'rx','linewidth',10);    
+pl = plot(app.UIAxes,xVerdi,yVerdi,'rx','linewidth',10); 
+plot(app.UIAxes, xVerdi,yVerdi,'k-','linewidth',2);
 Xstopp= 0;
 XstoppNy= 10*presisjon;
 D=0;
@@ -48,6 +56,7 @@ while abs(Xstopp-XstoppNy)>presisjon
        Xstopp=XstoppNy;
     while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
           N=Normalkraft(Vx,X,h,f,M,g);     %Normalkraft funksjon
+          pause(0.001);
           R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
           D=(f(X+h)-f(X-h))/(2*h); 
           ax=Akselerasjon(Vx,X,h,f,M,g);   %Akselerasjon
@@ -63,13 +72,28 @@ while abs(Xstopp-XstoppNy)>presisjon
           set(pl,'ydata',Y);
           drawnow limitrate           % Oppdaterer selve plottet
           end
+          if (X>xMax)
+              xMax=X+5;
+              xVektor = linspace(xMin,xMax,Na);           % Vektor med x-verdier
+
+              plot(app.UIAxes, xVektor,f(xVektor),'k-','linewidth',2); % Plotter landskap
+          elseif (X<xMin)
+              xMin=X-5;
+              xVektor = linspace(xMin,xMax,Na);           % Vektor med x-verdier
+              plot(app.UIAxes, xVektor,f(xVektor),'k-','linewidth',2); % Plotter landskap
+          end
+          
+          
      end
   XstoppNy=X;
   M=M/2;
 end
-          set(pl,'xdata',XstoppNy);
-          set(pl,'ydata',f(XstoppNy));
+         if(sw=="Off")
+          set(pl,'xdata',X);
+          set(pl,'ydata',f(X));
           drawnow  
+          end
+          
 disp(['x0: ',num2str(x0),'.'])
 disp(['Vx0: ',num2str(Vx0),'.'])
 disp(['Minimalpunkt: ',num2str(XstoppNy),'.'])
