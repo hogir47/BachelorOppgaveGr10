@@ -1,4 +1,4 @@
-function map()
+function map() 
 x0ind=0;
 for x0 =-10:1:10
         x0ind=x0ind+1;
