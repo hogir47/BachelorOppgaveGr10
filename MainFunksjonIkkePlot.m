@@ -14,7 +14,7 @@ switch (func)
     case 3
         f =@(x)-cos(sqrt(x.^2+2*x+1))./sqrt(2*x.^2+x+1);
     case 4
-        f =@(x) x.^2/8 - 9 * sin(x+2);
+         f =@(x) x.^2/10 - 6 * cos(x+5);
 end% Oppløsninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
 %t=0;                                        % Start-tid
