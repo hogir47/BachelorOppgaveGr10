@@ -20,7 +20,7 @@ dt = 0.005;
 %t=0;                                        % Start-tid
 % mot venstre
 X =x0;
-h = 0.001;
+h = 1;
 g = 9.81; 
 M =0.1;
 presisjon = 1e-8;

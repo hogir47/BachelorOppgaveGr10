@@ -1,4 +1,4 @@
-function  MainFunksjon(app,sw,func)
+function  MainFunksjon(app,sw,func,sw2)
 cla(app.UIAxes);            
 app.Label.Text="simulating";
 
@@ -56,7 +56,10 @@ while abs(Xstopp-XstoppNy)>presisjon
        Xstopp=XstoppNy;
     while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
           N=Normalkraft(Vx,X,h,f,M,g);     %Normalkraft funksjon
+          if(sw2=="slow")
           pause(0.001);
+          end
+          
           R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
           D=(f(X+h)-f(X-h))/(2*h); 
           ax=Akselerasjon(Vx,X,h,f,M,g);   %Akselerasjon
