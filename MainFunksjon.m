@@ -18,7 +18,7 @@ switch (func)
     case 3
         f =@(x)-cos(sqrt(x.^2+2*x+1))./sqrt(2*x.^2+x+1);
     case 4
-        f =@(x) 6*sin(x)-x+12;
+        f =@(x) x.^2/8 - 9 * sin(x+2);
 end
 xlabel(app.UIAxes,"X-axis",'fontsize',16,'color','b');
 ylabel(app.UIAxes,"Y-axis",'fontsize',16,'color','b');
