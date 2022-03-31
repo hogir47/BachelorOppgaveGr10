@@ -57,8 +57,10 @@ while abs(Xstopp-XstoppNy)>presisjon
        Xstopp=XstoppNy;
     while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
           N=Normalkraft(Vx,X,h,f,M,g);     %Normalkraft funksjon
-          if(sw2=="slow")
-          pause(0.001);
+          if(sw2=="fast")
+              rate=100;
+          elseif sw2=="slow"
+              rate=5;
           end
           
           R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
@@ -71,7 +73,7 @@ while abs(Xstopp-XstoppNy)>presisjon
           X=X+Vx*dt;
           Y=f(X);
           % Oppdaterer data til plotting
-          if (sw=="On" & mod(teller,10)==0)
+          if (sw=="On" & mod(teller,rate)==0)
             set(pl,'xdata',X);
             set(pl,'ydata',Y);
             drawnow limitrate           % Oppdaterer selve plottet
