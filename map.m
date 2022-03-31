@@ -13,7 +13,7 @@ end
 figure(f);
 X =-10:dx:10;
 V =-10:dx:10;
-surf(X,V,Mat);
+pcolor(X,V,Mat);
 colormap(jet)
 colorbar;
 end

@@ -52,6 +52,7 @@ plot(app.UIAxes, xVerdi,yVerdi,'k-','linewidth',2);
 Xstopp= 0;
 XstoppNy= 10*presisjon;
 D=0;
+teller=0;
 while abs(Xstopp-XstoppNy)>presisjon
        Xstopp=XstoppNy;
     while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
@@ -70,11 +71,12 @@ while abs(Xstopp-XstoppNy)>presisjon
           X=X+Vx*dt;
           Y=f(X);
           % Oppdaterer data til plotting
-          if(sw=="On")
-          set(pl,'xdata',X);
-          set(pl,'ydata',Y);
-          drawnow limitrate           % Oppdaterer selve plottet
+          if (sw=="On" & mod(teller,10)==0)
+            set(pl,'xdata',X);
+            set(pl,'ydata',Y);
+            drawnow limitrate           % Oppdaterer selve plottet
           end
+          teller=teller+1;
           if (X>xMax)
               xMax=X+5;
               xVektor = linspace(xMin,xMax,Na);           % Vektor med x-verdier
