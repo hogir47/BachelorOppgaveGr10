@@ -1,4 +1,5 @@
 function N = Normalkraft(Vx,X,h,f,M,g)
+%Normalkraft(N)
 D=(f(X+h)-f(X-h))/(2*h);
 B =-atan(D);
 F=(f(X+h)-2*f(X)+f(X-h))/(h^2);
