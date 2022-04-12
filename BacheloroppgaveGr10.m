@@ -5,15 +5,15 @@
 % tMax - Hvor lenge simuleringa skal vare
 % Na - antall punkter i x - for plottinga
 % Landskap
-%f =@(x) x.^2;
-f =@(x) x.^2/4 - 4 * cos(x-1);
+f =@(x) x.^2;
+%f =@(x) x.^2/4 - 4 * cos(x-1);
 fig = figure(1);
 xlabel("X-axis",'fontsize',16,'color','b');
 ylabel("Y-axis",'fontsize',16,'color','b');
 title("Simulating of sliding",'fontsize',16,'color','r');
 % X-posisjon som funksjon av tid
 x0 = -10;                                 % Startposisjon
-Vx0 =10;                                    %Start av farten
+Vx0 =2;                                    %Start av farten
 % Oppløsninga i tid - steglengda - og varigheten av simuleringa
 dt = 0.005;
 tMax=10;
@@ -25,7 +25,7 @@ X =x0;
 h = 0.001;
 g = 9.81; 
 M =0.1;
-presisjon = 1e-8;
+presisjon = 1e-4;
 Vx = Vx0;                                   %Steglengde (blir endra inne i løkka)
 Vmin=1e-5;
 % Vektor med x-verdier
