@@ -60,7 +60,7 @@ while abs(Xstopp-XstoppNy)>presisjon
           if(sw2=="fast")
               rate=100;
           elseif sw2=="slow"
-              rate=5;
+              rate=0.0001;
           end
           
           R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft

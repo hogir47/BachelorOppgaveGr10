@@ -5,8 +5,8 @@
 % tMax - Hvor lenge simuleringa skal vare
 % Na - antall punkter i x - for plottinga
 % Landskap
-f =@(x) x.^2;
-%f =@(x) x.^2/4 - 4 * cos(x-1);
+%f =@(x) x.^2;
+f =@(x) x.^2/4 - 4 * cos(x-1);
 fig = figure(1);
 xlabel("X-axis",'fontsize',16,'color','b');
 ylabel("Y-axis",'fontsize',16,'color','b');
