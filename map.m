@@ -1,4 +1,4 @@
-function map(dx,dvx,xmax,vmax,f)
+function map(app,dx,dvx,xmax,vmax,f)
 % map function for å finne lokal og global punktum.
 % Input: 
 % Dobbel for-løkke for x0 og Vx0.
@@ -17,17 +17,18 @@ for x0 =-xmax:dx:xmax
         end
 end
 
-figure(f);
-
+%figure(f);
 Npts_x=((2*xmax)/dx)+1;
 Npts_v=((2*vmax)/dvx)+1;
 
-Xvector =linspace(-xmax,xmax,Npts_x);  % Vektor med x-verdier
-Vvector =linspace(-vmax,vmax,Npts_v);  % Vektor med v-verdier
+Xvector =linspace(-xmax,xmax,Npts_x); % Vektor med x-verdier
+Vvector =linspace(-vmax,vmax,Npts_v); % Vektor med v-verdier
 
-pcolor(Vvector,Xvector,Mat);
-colormap(jet);
-colorbar;
+pcolor(app.UIAxes2,Vvector,Xvector,Mat);
+colormap(app.UIAxes2,jet);
+
 
 end
+
+
    
