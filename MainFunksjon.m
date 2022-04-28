@@ -60,7 +60,7 @@ while abs(Xstopp-XstoppNy)>presisjon
           if(sw2=="fast")
               rate=100;
           elseif sw2=="slow"
-              rate=0.0001;
+              rate=5;
           end
           
           R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
@@ -76,7 +76,7 @@ while abs(Xstopp-XstoppNy)>presisjon
           if (sw=="On" & mod(teller,rate)==0)
             set(pl,'xdata',X);
             set(pl,'ydata',Y);
-            drawnow limitrate           % Oppdaterer selve plottet
+            drawnow %limitrate           % Oppdaterer selve plottet
           end
           teller=teller+1;
           if (X>xMax)
