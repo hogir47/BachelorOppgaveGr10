@@ -58,9 +58,9 @@ while abs(Xstopp-XstoppNy)>presisjon
     while abs(Vx) > Vmin || D > M          % Looper over alle tidspunktene
           N=Normalkraft(Vx,X,h,f,M,g);     %Normalkraft funksjon
           if(sw2=="fast")
-              rate=100;
+              rate=25;
           elseif sw2=="slow"
-              rate=5;
+              rate=9;
           end
           
           R=M*N;                           % Friksjon=Friksjonskoeffisient*Normalkraft
